@@ -15,7 +15,8 @@ if cc.has_argument('-Wno-overlength-strings')
   add_project_arguments('-Wno-overlength-strings', language: 'c')
 endif
 
-parse_args = ['--features', get_option('features')]
+features = 'lse'
+parse_args = ['--features', features]
 if get_option('b_coverage')
   parse_args += ['--coverage']
 endif
@@ -27,7 +28,7 @@ instr_data = custom_target('tables',
                            install: true,
                            install_dir: [get_option('includedir'), false])
 
-libdisarm64 = library('disarm64', 'classify.c', 'decode.c', 'encode.c', 'format.c', instr_data, install: true)
+libdisarm64 = library('disarm64', 'classify.c', 'decode.c', 'format.c', instr_data, install: true)
 disarm64 = declare_dependency(link_with: libdisarm64,
                               include_directories: include_directories('.'),
                               sources: instr_data)
