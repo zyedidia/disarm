@@ -25,6 +25,7 @@ instr_data = custom_target('tables',
                            command: [python3, '@INPUT0@', '@OUTPUT@', '@INPUT1@', '--feature-desc', '@INPUT2@', '--encode-in-header'] + parse_args,
                            input: files('parse.py', 'desc.txt', 'feat.txt'),
                            output: ['disarm64-public.inc', 'disarm64-private.inc'],
+                           c_args: ['-Wno-unused-function'],
                            install: true,
                            install_dir: [get_option('includedir'), false])
 
