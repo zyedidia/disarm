@@ -21,14 +21,16 @@ if get_option('b_coverage')
   parse_args += ['--coverage']
 endif
 
+install = not meson.is_subproject()
+
 instr_data = custom_target('tables',
                            command: [python3, '@INPUT0@', '@OUTPUT@', '@INPUT1@', '--feature-desc', '@INPUT2@', '--encode-in-header'] + parse_args,
                            input: files('parse.py', 'desc.txt', 'feat.txt'),
                            output: ['disarm64-public.inc', 'disarm64-private.inc'],
-                           install: true,
+                           install: install,
                            install_dir: [get_option('includedir'), false])
 
-libdisarm64 = static_library('disarm64', 'classify.c', 'decode.c', 'format.c', instr_data, c_args: ['-Wno-unused-function'], install: true)
+libdisarm64 = static_library('disarm64', 'classify.c', 'decode.c', 'format.c', instr_data, c_args: ['-Wno-unused-function'], install: install)
 disarm64 = declare_dependency(link_with: libdisarm64,
                               include_directories: include_directories('.'),
                               sources: instr_data)
