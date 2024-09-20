@@ -108,11 +108,11 @@
   encops_mul: Rd=reggp Rn=reggp Rm=reggp Ra=regzr
 [MULH]
   # canonical encoding of Ra=11111
-  desc: {1:sf=1}0011011{1:U}10{5:Rm}0{5:Ra}{5:Rn}{5:Rd}
+  desc: {1:sf=1}0011011{1:U}10{5:Rm}011111{5:Rn}{5:Rd}
   mnem: {U:0=S:1=U}MULH
   decode: {U:0=s:1=u}mulh OPreggp(@Rd, @sf) OPreggp(@Rn, @sf) OPreggp(@Rm, @sf)
   encmnem: {U:0=S:1=U}MULH
-  encops: Rd=reggp Rn=reggp Rm=reggp Ra=regzr
+  encops: Rd=reggp Rn=reggp Rm=reggp
 [BCOND]
   desc: 01010100{19:imm19|s}{1:C}{4:bcond}
   mnem: B{C:0=:1=C}COND
@@ -371,11 +371,11 @@
   encops: Rd=reggp Rn=reggp Rm=reggp
 [MEMOR]
   # canonical encoding of Rt2=11111 Rs=11111
-  desc: {2:size}0010001{1:L}0{5:Rs}{1:o0}{5:Rt2}{5:Rn|SP}{5:Rt}
+  desc: {2:size}0010001{1:L}011111{1:o0}11111{5:Rn|SP}{5:Rt}
   mnem: {L,o0:0,0=STLL:0,1=STL:1,0=LDLA:1,1=LDA}R{size:0=B:1=H:2=W:3=}
   decode: {L,o0:0,0=stll:0,1=stl:1,0=ldla:1,1=lda}r{size:0=b:1=h:2=:3=} OPreggp(@Rt, @size==3) OPmemuoff(@Rn, 0)
   encmnem: {L,o0:0,0=STLL:0,1=STL:1,0=LDLA:1,1=LDA}R{size:0=B:1=H:2=w:3=x}
-  encops: Rs=regzr Rt=reggp Rt2=regzr Rn=reggpsp
+  encops: Rt=reggp Rn=reggpsp
   feat: {o0:0=LOR:1=}
 [MEMX]
   # canonical encoding of LDXR/STXR-Rt2=11111 LDX*-Rs=11111
