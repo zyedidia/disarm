@@ -31,6 +31,17 @@ instr_data = custom_target('tables',
                            install_dir: [get_option('includedir'), false])
 
 libdisarm64 = static_library('disarm64', 'classify.c', 'decode.c', 'format.c', instr_data, c_args: ['-Wno-unused-function'], install: install)
+
 disarm64 = declare_dependency(link_with: libdisarm64,
                               include_directories: include_directories('.'),
                               sources: instr_data)
+
+has_fuzzer = meson.get_compiler('c').has_argument('-fsanitize=fuzzer')
+
+if has_fuzzer
+  libdisarm64_fuzz = static_library('disarm64_fuzz', 'classify.c', 'decode.c', 'format.c', instr_data, c_args: ['-Wno-unused-function', '-fsanitize=fuzzer'], install: install)
+
+  disarm64_fuzz = declare_dependency(link_with: libdisarm64_fuzz,
+                                include_directories: include_directories('.'),
+                                sources: instr_data)
+endif
