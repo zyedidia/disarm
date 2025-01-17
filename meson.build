@@ -15,7 +15,7 @@ if cc.has_argument('-Wno-overlength-strings')
   add_project_arguments('-Wno-overlength-strings', language: 'c')
 endif
 
-features = 'lse'
+features = 'all'
 parse_args = ['--features', features]
 if get_option('b_coverage')
   parse_args += ['--coverage']
